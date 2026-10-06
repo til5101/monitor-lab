@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Icon, Logo } from "./Icon";
 
 const STEPS = ["Current", "Upgrade", "Compare"];
@@ -7,9 +7,10 @@ interface Props {
   progress: number;
   canShare: boolean;
   shareUrl: () => string;
+  account?: ReactNode;
 }
 
-export function Header({ progress, canShare, shareUrl }: Props) {
+export function Header({ progress, canShare, shareUrl, account }: Props) {
   return (
     <header className="topbar">
       <a className="brand" href="/" aria-label="Monitor Lab home">
@@ -28,7 +29,10 @@ export function Header({ progress, canShare, shareUrl }: Props) {
           );
         })}
       </ol>
-      <div className="topbar-actions">{canShare && <ShareButton shareUrl={shareUrl} />}</div>
+      <div className="topbar-actions">
+        {canShare && <ShareButton shareUrl={shareUrl} />}
+        {account}
+      </div>
     </header>
   );
 }

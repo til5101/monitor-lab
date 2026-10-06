@@ -14,6 +14,7 @@ import {
 import { modelMetaText, screenTitle } from "../lib/setup";
 import { featureBadges } from "../lib/features";
 import { Icon } from "./Icon";
+import { HeartButton } from "./AccountUI";
 import { DeskEditor } from "./DeskEditor";
 import { SelectField } from "./SetupEditor";
 
@@ -298,9 +299,12 @@ function ResultCard({ item, rank, current, prefs, desk, secondary, selected, onC
           {badges.map((b) => <span key={b.text} className="tag is-plain">{b.text}</span>)}
         </div>
       </div>
-      <button type="button" className={selected ? "compare-button is-selected" : "compare-button"} onClick={onChoose} aria-label={`Compare ${item.model.brand} ${item.model.model}`}>
-        {selected ? "Comparing" : "Compare"}
-      </button>
+      <div className="result-actions">
+        <button type="button" className={selected ? "compare-button is-selected" : "compare-button"} onClick={onChoose} aria-label={`Compare ${item.model.brand} ${item.model.model}`}>
+          {selected ? "Comparing" : "Compare"}
+        </button>
+        <HeartButton model={item.model} />
+      </div>
     </li>
   );
 }

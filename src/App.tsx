@@ -14,6 +14,7 @@ import { Comparison, InsightsView, PortsView } from "./components/Comparison";
 import { Stats } from "./components/Stats";
 import { Finder } from "./components/Finder";
 import { Icon } from "./components/Icon";
+import { AccountButton, Notice, SavedPanel, SignInDialog } from "./components/AccountUI";
 
 /** With a matching pair, the second screen mirrors the main one (keeping its own orientation). */
 function effectiveNext(state: AppState): SetupInput {
@@ -86,13 +87,29 @@ export function App() {
     dispatch({ type: "finder", open: false });
   };
 
+  const [savedOpen, setSavedOpen] = useState(false);
+  const shareQuery = () => new URL(buildShareUrl(state, window.location.origin)).search.replace(/^\?/, "");
+  const openSavedSetup = (params: string) => {
+    const restored = readShareParams(`?${params}`, initialState);
+    if (restored) dispatch({ type: "replace", state: { ...restored, shortlist: [], shortlistIndex: -1, finderOpen: false } });
+  };
+  const useSavedMonitor = (model: MonitorModel) => {
+    const primary: ScreenInput = { modelId: model.id, size: model.size, resolution: model.resolution, scaling: recommendedScaling(model), orientation: "landscape" };
+    dispatch({ type: "chooseRecommendation", ids: [model.id], index: 0, primary });
+  };
+
   const toggle = (step: "current" | "new" | "desk") => dispatch({ type: "open", step: state.open === step ? null : step });
   const progress = state.doneNew ? 3 : state.doneCurrent ? 2 : 1;
   const nextChosen = state.doneNew || !!state.next.primary.modelId;
 
   return (
     <div className={`app layout-${layout}`}>
-      <Header progress={progress} shareUrl={() => buildShareUrl(state, window.location.origin)} canShare={state.doneCurrent} />
+      <Header
+        progress={progress}
+        shareUrl={() => buildShareUrl(state, window.location.origin)}
+        canShare={state.doneCurrent}
+        account={<AccountButton onOpenSaved={() => setSavedOpen(true)} />}
+      />
       {catalogueError && (
         <div className="banner" role="status">
           The monitor catalogue didn't load ({catalogueError}). You can still compare by size and resolution.
@@ -198,6 +215,7 @@ export function App() {
             layout={layout}
             nextIsExample={!nextChosen}
             shortlist={state.shortlist.length > 1 ? { index: state.shortlistIndex, total: state.shortlist.length, go: (i) => applyModel(state.shortlist, i) } : null}
+            saveParams={shareQuery}
             dispatch={dispatch}
           />
           <Stats current={current} next={next} />
@@ -216,6 +234,9 @@ export function App() {
           </aside>
         )}
       </main>
+      <SavedPanel open={savedOpen} onClose={() => setSavedOpen(false)} catalogue={catalogue} onUseMonitor={useSavedMonitor} onOpenSetup={openSavedSetup} />
+      <SignInDialog />
+      <Notice />
     </div>
   );
 }
