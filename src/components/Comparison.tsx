@@ -1,4 +1,4 @@
-import { useMemo, type Dispatch } from "react";
+import { useMemo, useState, type Dispatch } from "react";
 import type { Action, TabId } from "../state";
 import type { Desk, Setup } from "../lib/types";
 import { buildInsights, type Insight } from "../lib/insights";
@@ -7,6 +7,8 @@ import { deskSceneSvg, sharedScene } from "../lib/deskScene";
 import { featureBadges, featureLosses } from "../lib/features";
 import { setupTitle } from "../lib/setup";
 import { Segmented } from "./Segmented";
+import { Icon } from "./Icon";
+import { ActualSize } from "./ActualSize";
 import { ScreensView } from "./ScreensView";
 
 interface Props {
@@ -16,6 +18,8 @@ interface Props {
   tab: TabId;
   layout: "phone" | "laptop" | "wide";
   nextIsExample: boolean;
+  /** Step through finder results without reopening the finder. */
+  shortlist: { index: number; total: number; go: (index: number) => void } | null;
   dispatch: Dispatch<Action>;
 }
 
@@ -26,15 +30,32 @@ const ALL_TABS: { value: TabId; label: string }[] = [
   { value: "insights", label: "Insights" },
 ];
 
-export function Comparison({ current, next, desk, tab, layout, nextIsExample, dispatch }: Props) {
+export function Comparison({ current, next, desk, tab, layout, nextIsExample, shortlist, dispatch }: Props) {
   // On wide screens ports and insights live in their own column, so the stage only needs two views.
   const tabs = layout === "wide" ? ALL_TABS.slice(0, 2) : ALL_TABS;
   const activeTab = tabs.some((t) => t.value === tab) ? tab : "workspace";
+  const [actualOpen, setActualOpen] = useState(false);
   return (
     <section className="stage" aria-label="Comparison">
       <div className="stage-bar">
         <Segmented dark label="Comparison view" value={activeTab} options={tabs} onChange={(t) => dispatch({ type: "tab", tab: t })} />
-        <span className="stage-note">Same physical scale · updates as you change anything</span>
+        <button type="button" className="stage-button" onClick={() => setActualOpen(true)}>
+          <Icon name="expand" />
+          <span>Actual size</span>
+        </button>
+        {shortlist ? (
+          <div className="shortlist-nav" aria-label="Finder results">
+            <button type="button" className="round-button" aria-label="Previous recommendation" disabled={shortlist.index <= 0} onClick={() => shortlist.go(shortlist.index - 1)}>
+              <Icon name="chevron" />
+            </button>
+            <span className="mono">Pick {shortlist.index + 1} of {shortlist.total}</span>
+            <button type="button" className="round-button is-next" aria-label="Next recommendation" disabled={shortlist.index >= shortlist.total - 1} onClick={() => shortlist.go(shortlist.index + 1)}>
+              <Icon name="chevron" />
+            </button>
+          </div>
+        ) : (
+          <span className="stage-note">Same physical scale · updates as you change anything</span>
+        )}
       </div>
       <div className="stage-body" key={activeTab}>
         {activeTab === "workspace" && <ScreensView current={current} next={next} nextIsExample={nextIsExample} />}
@@ -42,6 +63,7 @@ export function Comparison({ current, next, desk, tab, layout, nextIsExample, di
         {activeTab === "ports" && <PortsView current={current} next={next} dark />}
         {activeTab === "insights" && <InsightsView current={current} next={next} desk={desk} dark />}
       </div>
+      {actualOpen && <ActualSize current={current} next={next} onClose={() => setActualOpen(false)} />}
     </section>
   );
 }

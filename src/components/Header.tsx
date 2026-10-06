@@ -1,8 +1,15 @@
+import { useEffect, useRef, useState } from "react";
 import { Icon, Logo } from "./Icon";
 
 const STEPS = ["Current", "Upgrade", "Compare"];
 
-export function Header({ progress }: { progress: number }) {
+interface Props {
+  progress: number;
+  canShare: boolean;
+  shareUrl: () => string;
+}
+
+export function Header({ progress, canShare, shareUrl }: Props) {
   return (
     <header className="topbar">
       <a className="brand" href="/" aria-label="Monitor Lab home">
@@ -21,6 +28,53 @@ export function Header({ progress }: { progress: number }) {
           );
         })}
       </ol>
+      <div className="topbar-actions">{canShare && <ShareButton shareUrl={shareUrl} />}</div>
     </header>
+  );
+}
+
+function ShareButton({ shareUrl }: { shareUrl: () => string }) {
+  const [status, setStatus] = useState<"idle" | "copied" | "manual">("idle");
+  const [url, setUrl] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (status === "copied") {
+      const t = setTimeout(() => setStatus("idle"), 2200);
+      return () => clearTimeout(t);
+    }
+    if (status === "manual") inputRef.current?.select();
+  }, [status]);
+
+  async function share() {
+    const link = shareUrl();
+    setUrl(link);
+    try {
+      window.history.replaceState(null, "", link);
+    } catch {
+      /* not allowed in some embeds */
+    }
+    try {
+      await navigator.clipboard.writeText(link);
+      setStatus("copied");
+    } catch {
+      setStatus("manual");
+    }
+  }
+
+  return (
+    <div className="share">
+      <button type="button" className="ghost-button" onClick={share}>
+        <Icon name={status === "copied" ? "check" : "share"} />
+        <span>{status === "copied" ? "Link copied" : "Share"}</span>
+      </button>
+      {status === "manual" && (
+        <div className="share-pop" role="dialog" aria-label="Share link">
+          <label className="field-label" htmlFor="share-url">Copy this link</label>
+          <input id="share-url" ref={inputRef} readOnly value={url} onFocus={(e) => e.target.select()} />
+          <button type="button" className="text-button" onClick={() => setStatus("idle")}>Done</button>
+        </div>
+      )}
+    </div>
   );
 }

@@ -12,9 +12,12 @@ interface Props {
   loading: boolean;
   findModel: (id: string | null) => MonitorModel | null;
   dispatch: Dispatch<Action>;
+  /** New setup only: second screen is the same model as the main one. */
+  pair?: boolean;
+  onPairChange?: (value: boolean) => void;
 }
 
-export function SetupEditor({ prefix, setup, catalogue, loading, findModel, dispatch }: Props) {
+export function SetupEditor({ prefix, setup, catalogue, loading, findModel, dispatch, pair = false, onPairChange }: Props) {
   return (
     <div className="editor">
       <Segmented
@@ -36,7 +39,16 @@ export function SetupEditor({ prefix, setup, catalogue, loading, findModel, disp
       <div className="fold" data-open={setup.mode === "dual"} inert={setup.mode !== "dual"}>
         <div>
           <div className="secondary">
-            <ScreenFields
+            {onPairChange && (
+              <label className="check">
+                <input type="checkbox" checked={pair} onChange={(e) => onPairChange(e.target.checked)} />
+                <span>
+                  <strong>Same model for both screens</strong>
+                  <small>A matching pair. Orientation and side can still differ.</small>
+                </span>
+              </label>
+            )}
+            {!pair && <ScreenFields
               prefix={prefix}
               slot="secondary"
               title="Second screen"
@@ -45,7 +57,7 @@ export function SetupEditor({ prefix, setup, catalogue, loading, findModel, disp
               loading={loading}
               findModel={findModel}
               dispatch={dispatch}
-            />
+            />}
             <div className="grid-2">
               <SelectField
                 label="Orientation"

@@ -54,7 +54,7 @@ function SetupDrawing({ setup, pxPerCM, label, tone }: { setup: Setup; pxPerCM: 
       <figcaption>
         <span className="kicker">{label}</span>
         <strong>{setupTitle(setup)}</strong>
-        <span className="mono">{workspaceLabel(setup)} workspace</span>
+        <span className="mono">{setup.monitors.length > 1 ? workspaceLabel(setup) : `${workspaceLabel(setup)} workspace`}</span>
         <span className="caption-note">{contentDescription(setup)}</span>
       </figcaption>
     </figure>
