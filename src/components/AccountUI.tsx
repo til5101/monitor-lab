@@ -98,7 +98,7 @@ export function SignInDialog() {
             <button type="submit" className="primary-button" disabled={status === "sending"}>
               {status === "sending" ? "Sending…" : "Email me a sign-in link"}
             </button>
-            <p className="hint">No password needed. New here? The same link creates your account.</p>
+            <p className="hint">No password needed. New here? The same link creates your account. See how we handle your email in our <a href="/privacy" target="_blank" rel="noreferrer">privacy notice</a>.</p>
           </form>
         )}
       </div>
@@ -235,6 +235,7 @@ export function SavedPanel({ open, onClose, catalogue, onUseMonitor, onOpenSetup
 
           <section className="account-actions">
             <button type="button" className="secondary-button" onClick={() => { void signOut(); onClose(); }}>Sign out</button>
+            <a className="text-button" href="/privacy" target="_blank" rel="noreferrer">Privacy notice</a>
             {confirmDelete ? (
               <div className="confirm">
                 <p>Delete your account, saved monitors and saved setups? This can't be undone.</p>

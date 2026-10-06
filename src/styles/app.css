@@ -520,3 +520,17 @@ button { cursor: pointer; }
 .toast .text-button { color: #c4c5ff; }
 @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
 @media (max-width: 899px) { .save-name { width: 100%; } .text-input.dark { flex: 1; width: auto; } .stage-bar { gap: 8px; } }
+
+/* ---------- Text pages (privacy) ---------- */
+.doc-page { min-height: 100dvh; background: var(--bg); }
+.doc-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 24px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.doc { max-width: 680px; margin: 0 auto; padding: 40px 20px 72px; font-size: 15.5px; line-height: 1.65; color: var(--text-2); }
+.doc h1 { margin: 0; font-size: 34px; letter-spacing: -0.03em; color: var(--text); }
+.doc h2 { margin: 34px 0 8px; font-size: 18px; letter-spacing: -0.01em; color: var(--text); }
+.doc p { margin: 0 0 12px; }
+.doc ul { margin: 0 0 12px; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.doc strong { color: var(--text); }
+.doc a { color: var(--accent-ink); }
+.doc-meta { font-size: 13px; color: var(--text-3); }
+.doc-lead { font-size: 17px; color: var(--text); padding: 16px 18px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.modal-body .hint a { color: var(--accent-ink); }
