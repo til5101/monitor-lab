@@ -19,3 +19,17 @@ The monitor catalogue is read from Supabase (`monitor_models`). The publishable 
 - `src/styles/app.css` – all styling. Three layout bands: phone (< 900px), laptop (900–1999px) and wide (≥ 2000px).
 
 Figures match the original Squarespace version (v11) for the same inputs.
+
+## Environments
+
+| | Live | Dev |
+|---|---|---|
+| Branch | `main` | `dev` |
+| Address | monitorlab.co.uk | dev.monitorlab.co.uk |
+| Database | Supabase "Monitor Lab" | Supabase "Monitor Lab Dev" |
+
+New work goes to `dev` first. When it has been tested on dev.monitorlab.co.uk, `dev` is merged into `main`, which publishes it to the live site.
+
+Each environment's Supabase address and publishable key are set in the hosting settings as `SUPABASE_URL` and `SUPABASE_KEY`. Without them the build points at live.
+
+Database changes are written as migrations, applied to dev first and only applied to live once the feature that needs them is merged.
