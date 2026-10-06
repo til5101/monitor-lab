@@ -9,6 +9,7 @@ import { setupTitle } from "../lib/setup";
 import { Segmented } from "./Segmented";
 import { Icon } from "./Icon";
 import { ActualSize } from "./ActualSize";
+import { SaveSetupButton } from "./AccountUI";
 import { ScreensView } from "./ScreensView";
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
   nextIsExample: boolean;
   /** Step through finder results without reopening the finder. */
   shortlist: { index: number; total: number; go: (index: number) => void } | null;
+  saveParams: () => string;
   dispatch: Dispatch<Action>;
 }
 
@@ -30,7 +32,7 @@ const ALL_TABS: { value: TabId; label: string }[] = [
   { value: "insights", label: "Insights" },
 ];
 
-export function Comparison({ current, next, desk, tab, layout, nextIsExample, shortlist, dispatch }: Props) {
+export function Comparison({ current, next, desk, tab, layout, nextIsExample, shortlist, saveParams, dispatch }: Props) {
   // On wide screens ports and insights live in their own column, so the stage only needs two views.
   const tabs = layout === "wide" ? ALL_TABS.slice(0, 2) : ALL_TABS;
   const activeTab = tabs.some((t) => t.value === tab) ? tab : "workspace";
@@ -39,6 +41,7 @@ export function Comparison({ current, next, desk, tab, layout, nextIsExample, sh
     <section className="stage" aria-label="Comparison">
       <div className="stage-bar">
         <Segmented dark label="Comparison view" value={activeTab} options={tabs} onChange={(t) => dispatch({ type: "tab", tab: t })} />
+        {!nextIsExample && <SaveSetupButton defaultName={`${setupTitle(current)} → ${setupTitle(next)}`.slice(0, 80)} params={saveParams} />}
         <button type="button" className="stage-button" onClick={() => setActualOpen(true)}>
           <Icon name="expand" />
           <span>Actual size</span>

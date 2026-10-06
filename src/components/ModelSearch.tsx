@@ -3,6 +3,7 @@ import { searchCatalogue } from "../lib/catalogue";
 import { modelMetaText } from "../lib/setup";
 import type { MonitorModel } from "../lib/types";
 import { Icon } from "./Icon";
+import { HeartButton } from "./AccountUI";
 
 interface Props {
   label: string;
@@ -40,6 +41,7 @@ export function ModelSearch({ label, catalogue, loading, selected, onSelect, onC
             </strong>
             <span>{modelMetaText(selected)}</span>
           </div>
+          <HeartButton model={selected} />
           <button type="button" className="text-button" onClick={() => { onClear(); requestAnimationFrame(() => inputRef.current?.focus()); }}>
             Change
           </button>
