@@ -194,7 +194,8 @@ button { cursor: pointer; }
 .segmented-thumb { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / var(--count)); border-radius: 8px; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); transform: translateX(calc(var(--index) * 100%)); transition: transform 0.3s var(--ease); }
 .segmented.is-dark { background: var(--stage-3); display: inline-grid; }
 .segmented.is-dark button { color: var(--stage-muted); }
-.segmented.is-dark button[aria-checked="true"] { color: var(--text); }
+.segmented.is-dark button[aria-checked="true"] { color: #fff; }
+.segmented.is-dark .segmented-thumb { background: var(--accent); box-shadow: 0 1px 6px rgba(91, 92, 240, 0.45); }
 
 /* ---------- Stage ---------- */
 
