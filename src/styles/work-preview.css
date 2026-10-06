@@ -1,0 +1,98 @@
+/* Illustrative desktop inside each drawn screen (ported from the original page). */
+/* WORK PREVIEW */ .sim-work{position: relative; width: 100%; height: 100%; overflow: hidden; background: #e8ebef;}
+.sim-work-topbar{height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px; background: #222630; color: #fff;}
+.sim-work-brand{font-size: 20px; font-weight: 800; letter-spacing: .04em;}
+.sim-work-topmeta{display: flex; gap: 10px;}
+.sim-work-topmeta span{width: 72px; height: 12px; border-radius: 999px; background: #4b515d;}
+.sim-work-desktop{height: calc(100% - 70px); display: grid; grid-template-columns: minmax(620px, 1.12fr) minmax(520px, .88fr); gap: 34px; padding: 38px; overflow: hidden; background: radial-gradient(circle at 14% 18%, rgba(91,92,240,.12), transparent 24%), linear-gradient(135deg, #eef0f4 0%, #dfe3e9 100%);}
+.sim-work-window{min-width: 0; overflow: hidden; border: 1px solid #cfd4db; border-radius: 14px; background: #fff; box-shadow: 0 18px 42px rgba(30,35,44,.12);}
+.sim-work-windowbar{height: 54px; display: flex; align-items: center; gap: 10px; padding: 0 18px; border-bottom: 1px solid #e2e5e9; background: #f7f8fa; color: #353a43; font-size: 16px; font-weight: 750;}
+.sim-work-dot{width: 10px; height: 10px; border-radius: 50%; background: #c6cbd2;}
+.sim-work-docbody{display: grid; grid-template-columns: 170px minmax(0,1fr); height: calc(100% - 54px);}
+.sim-work-nav{padding: 22px 18px; border-right: 1px solid #e2e5e9; background: #f4f6f8;}
+.sim-work-nav span{display: block; height: 14px; margin-bottom: 18px; border-radius: 999px; background: #cfd4db;}
+.sim-work-nav span:first-child{width: 78%; background: #8f90f4;}
+.sim-work-page{padding: 28px 30px; overflow: hidden;}
+.sim-work-page h4{margin: 0 0 20px; color: #20242b; font-size: 28px;}
+.sim-work-line{height: 13px; margin-bottom: 13px; border-radius: 999px; background: #d9dde3;}
+.sim-work-line:nth-child(3n){width: 82%;}
+.sim-work-line:nth-child(4n){width: 67%;}
+.sim-work-table{margin-top: 28px; display: grid; grid-template-columns: 1.2fr .8fr .7fr; gap: 2px; padding: 2px; background: #e3e6ea;}
+.sim-work-table span{height: 42px; background: #fff;}
+.sim-work-dashboard{height: calc(100% - 54px); padding: 26px; overflow: hidden;}
+.sim-work-metrics{display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 24px;}
+.sim-work-metric{padding: 16px; border: 1px solid #e1e4e9; border-radius: 10px; background: #f8f9fb;}
+.sim-work-metric small{display: block; margin-bottom: 8px; color: #626975; font-size: 12px;}
+.sim-work-metric strong{color: #252a32; font-size: 24px;}
+.sim-work-chart{height: 300px; display: flex; align-items: end; gap: 14px; padding: 24px 20px 18px; border: 1px solid #e1e4e9; border-radius: 12px; background: #fff;}
+.sim-work-chart span{flex: 1; min-width: 20px; border-radius: 7px 7px 2px 2px; background: #7a7cf2;}
+.sim-work-chart span:nth-child(1){height: 34%;}
+.sim-work-chart span:nth-child(2){height: 54%;}
+.sim-work-chart span:nth-child(3){height: 45%;}
+.sim-work-chart span:nth-child(4){height: 72%;}
+.sim-work-chart span:nth-child(5){height: 63%;}
+.sim-work-chart span:nth-child(6){height: 88%;}
+.sim-work-feed{margin-top: 18px;}
+.sim-work-feed span{display: block; height: 14px; margin-bottom: 12px; border-radius: 999px; background: #dce0e5;}
+/* All sizes below are logical desktop pixels. The existing monitor renderer scales the entire desktop using resolution and the selected Windows scaling. */ .sim-work-full{font-family:Arial,sans-serif;color:#354052;}
+.sim-work-full .sim-work-topbar{height:52px;padding:0 22px;}
+.sim-work-full .sim-work-brand{font-size:17px;}
+.sim-work-search{width:400px;padding:8px 18px;border-radius:7px;background:#363c49;color:#c0c8d6;font-size:13px;}
+.sim-work-clock{font-size:13px;white-space:nowrap;}
+.sim-work-full .sim-work-desktop{height:calc(100% - 96px);grid-template-columns:minmax(480px,1fr) minmax(480px,1fr);grid-template-rows:minmax(320px,1.15fr) minmax(240px,.85fr);gap:18px;padding:20px;}
+.sim-work-full .sim-work-window{min-height:0;border-radius:9px;}
+.sim-work-full .sim-work-windowbar{height:40px;font-size:13px;padding:0 14px;}
+.sim-work-windowbar i{width:13px;height:13px;border-radius:3px;flex:none;}
+.sim-work-window-actions{margin-left:auto;color:#8792a2;font-size:13px;}
+.sim-work-full .sim-work-docbody{height:calc(100% - 40px);grid-template-columns:130px minmax(0,1fr);}
+.sim-work-full .sim-work-nav{padding:20px 14px;}
+.sim-work-nav strong{display:block;font-size:10px;color:#778295;margin-bottom:20px;}
+.sim-work-full .sim-work-nav span{height:9px;margin-bottom:19px;}
+.sim-work-full .sim-work-page{padding:24px 28px;}
+.sim-work-page>small{font-size:10px;letter-spacing:1px;color:#8792a2;}
+.sim-work-full h4{font-size:24px;line-height:1.3;margin:12px 0;}
+.sim-work-full h5{font-size:16px;margin:22px 0 14px;color:#344153;}
+.sim-work-subtitle{font-size:12px;color:#8792a2;margin:0 0 18px;}
+.sim-work-callout{padding:14px;border-left:3px solid #9790eb;background:#f0eefb;color:#686192;font-size:13px;}
+.sim-work-full .sim-work-line{height:8px;margin-bottom:10px;background:#d7dde5;border-radius:3px;}
+.sim-work-full .sim-work-dashboard{height:calc(100% - 40px);padding:18px 22px;}
+.sim-work-dashboard-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.sim-work-dashboard-heading span{font-size:11px;color:#8290a2;}
+.sim-work-full .sim-work-metrics{margin:8px 0 14px;gap:12px;}
+.sim-work-full .sim-work-metric{padding:12px;}
+.sim-work-full .sim-work-metric strong{font-size:23px;}
+.sim-work-metric em{display:block;font-size:11px;font-style:normal;color:#398976;margin-top:7px;}
+.sim-work-full .sim-work-chart{height:180px;padding:15px 16px 0;gap:10px;background:repeating-linear-gradient(to top,#fff 0,#fff 43px,#edf0f5 44px,#fff 45px);}
+.sim-work-full .sim-work-chart span{min-width:8px;border-radius:4px 4px 0 0;background:#8883e7;}
+.sim-work-chart-labels{display:flex;justify-content:space-between;padding:8px 8px 0;font-size:10px;color:#8792a2;}
+.sim-work-channel{display:grid;grid-template-columns:130px 1fr 40px;align-items:center;gap:14px;font-size:12px;margin:18px 0;}
+.sim-work-channel>div{height:8px;background:#f0f2f7;border-radius:5px;}
+.sim-work-channel i{display:block;height:8px;background:#a7a3ed;border-radius:5px;}
+.sim-work-sheet-toolbar{height:36px;padding:10px 14px;background:#eaf4f0;color:#467b68;font-size:12px;}
+.sim-work-sheet-toolbar span{float:right;font-size:10px;}
+.sim-work-formula{height:30px;padding:8px 14px;font-size:11px;border-bottom:1px solid #e1e7eb;color:#7b8797;}
+.sim-work-sheet{border-collapse:collapse;width:100%;table-layout:fixed;font-size:12px;text-align:left;color:#4c596a;}
+.sim-work-sheet th,.sim-work-sheet td{height:30px;padding:7px 9px;border:1px solid #e7ebef;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sim-work-sheet th{background:#f3f6f8;font-size:11px;font-weight:600;}
+.sim-work-sheet th:first-child{width:35px;}
+.sim-work-sheet th:nth-child(2){width:30%;}
+.sim-work-sheet tr:nth-child(even){background:#fafbfc;}
+.sim-work-status{padding:3px 7px;border-radius:4px;background:#e9f4ef;color:#5c8c76;font-size:10px;}
+.sim-work-collaboration{display:grid;grid-template-columns:minmax(260px,1fr) minmax(160px,.55fr);height:calc(100% - 40px);overflow:hidden;}
+.sim-work-conversation{padding:16px 20px;overflow:hidden;}
+.sim-work-chat-heading{font-size:15px;font-weight:700;padding-bottom:14px;border-bottom:1px solid #edf0f4;}
+.sim-work-chat-heading small{display:block;font-size:10px;font-weight:400;color:#91a093;margin-top:5px;}
+.sim-work-message{display:flex;gap:12px;margin-top:20px;}
+.sim-work-message>b{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:9px;font-size:10px;color:#637184;}
+.sim-work-message strong{font-size:12px;}
+.sim-work-message small{font-size:9px;font-weight:400;color:#a1a9b6;margin-left:7px;}
+.sim-work-message p{font-size:12px;line-height:1.6;margin:5px 0;color:#7a8697;}
+.sim-work-agenda{padding:0 16px 16px;border-left:1px solid #e9edf2;background:#fafbfd;overflow:hidden;}
+.sim-work-agenda>p{font-size:11px;color:#8d98a9;}
+.sim-work-event{padding:12px;margin:12px 0;background:#eceafa;border-left:3px solid #a49ade;border-radius:5px;}
+.sim-work-event:nth-child(even){background:#eaf2f4;border-color:#8db9bd;}
+.sim-work-event small,.sim-work-event span{display:block;font-size:10px;color:#9092a8;}
+.sim-work-event strong{display:block;font-size:12px;margin:7px 0;color:#61667d;}
+.sim-work-taskbar{height:44px;display:flex;align-items:center;justify-content:center;gap:14px;background:#f4f6faee;border-top:1px solid #d9e0e9;color:#7c8799;font-size:10px;}
+.sim-work-taskbar>b{font-size:25px;color:#7974d0;}
+.sim-work-task-icon{display:grid;place-items:center;width:26px;height:26px;border-radius:6px;background:#e5e7f5;color:#7b7c9f;font-size:13px;font-weight:700;}
