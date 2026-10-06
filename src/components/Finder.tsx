@@ -15,6 +15,7 @@ import { modelMetaText, screenTitle } from "../lib/setup";
 import { featureBadges } from "../lib/features";
 import { Icon } from "./Icon";
 import { HeartButton } from "./AccountUI";
+import { Thumb } from "./Thumb";
 import { DeskEditor } from "./DeskEditor";
 import { SelectField } from "./SetupEditor";
 
@@ -285,25 +286,26 @@ function ResultCard({ item, rank, current, prefs, desk, secondary, selected, onC
   const badges = featureBadges(item.model, 3);
   return (
     <li className={`result${selected ? " is-selected" : ""}`}>
-      <div className="result-main">
+      <div className="result-head">
+        <Thumb model={item.model} size="lg" />
         <div className="result-title">
           {rank === 1 && <span className="top-pick">Top pick</span>}
           <strong>{item.model.brand} {item.model.model}</strong>
           <span className="result-meta">{modelMetaText(item.model)}</span>
         </div>
-        <p className="result-reason">{upgradeReason(item, current, prefs)}</p>
-        <div className="result-tags">
-          <span className={`tag ${fit.over ? "is-bad" : fit.tight ? "is-warn" : "is-good"}`}>{fit.text}</span>
-          <span className="tag">{workspace >= 0 ? "+" : ""}{workspace}% workspace</span>
-          <span className="tag">{Math.round(item.metrics.ppi)} PPI</span>
-          {badges.map((b) => <span key={b.text} className="tag is-plain">{b.text}</span>)}
+        <div className="result-actions">
+          <button type="button" className={selected ? "compare-button is-selected" : "compare-button"} onClick={onChoose} aria-label={`Compare ${item.model.brand} ${item.model.model}`}>
+            {selected ? "Comparing" : "Compare"}
+          </button>
+          <HeartButton model={item.model} />
         </div>
       </div>
-      <div className="result-actions">
-        <button type="button" className={selected ? "compare-button is-selected" : "compare-button"} onClick={onChoose} aria-label={`Compare ${item.model.brand} ${item.model.model}`}>
-          {selected ? "Comparing" : "Compare"}
-        </button>
-        <HeartButton model={item.model} />
+      <p className="result-reason">{upgradeReason(item, current, prefs)}</p>
+      <div className="result-tags">
+        <span className={`tag ${fit.over ? "is-bad" : fit.tight ? "is-warn" : "is-good"}`}>{fit.text}</span>
+        <span className="tag">{workspace >= 0 ? "+" : ""}{workspace}% workspace</span>
+        <span className="tag">{Math.round(item.metrics.ppi)} PPI</span>
+        {badges.map((b) => <span key={b.text} className="tag is-plain">{b.text}</span>)}
       </div>
     </li>
   );

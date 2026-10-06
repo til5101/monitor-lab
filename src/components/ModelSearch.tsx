@@ -4,6 +4,7 @@ import { modelMetaText } from "../lib/setup";
 import type { MonitorModel } from "../lib/types";
 import { Icon } from "./Icon";
 import { HeartButton } from "./AccountUI";
+import { Thumb } from "./Thumb";
 
 interface Props {
   label: string;
@@ -35,6 +36,7 @@ export function ModelSearch({ label, catalogue, loading, selected, onSelect, onC
       <div className="field">
         <span className="field-label">{label}</span>
         <div className="picked">
+          <Thumb model={selected} />
           <div className="picked-copy">
             <strong>
               {selected.brand} {selected.model}
@@ -99,10 +101,13 @@ export function ModelSearch({ label, catalogue, loading, selected, onSelect, onC
               onMouseEnter={() => setActive(i)}
               onMouseDown={(e) => { e.preventDefault(); pick(m); }}
             >
-              <strong>
-                {m.brand} {m.model}
-              </strong>
-              <span>{modelMetaText(m)}</span>
+              <Thumb model={m} size="sm" />
+              <span className="search-copy">
+                <strong>
+                  {m.brand} {m.model}
+                </strong>
+                <span>{modelMetaText(m)}</span>
+              </span>
             </li>
           ))}
         </ul>

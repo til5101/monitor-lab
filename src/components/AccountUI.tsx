@@ -3,6 +3,7 @@ import { useAccount } from "../account";
 import type { MonitorModel } from "../lib/types";
 import { modelMetaText } from "../lib/setup";
 import { Icon } from "./Icon";
+import { Thumb } from "./Thumb";
 
 /** Heart toggle for a catalogue model. Signed-out users are asked to sign in. */
 export function HeartButton({ model, dark }: { model: MonitorModel; dark?: boolean }) {
@@ -223,6 +224,7 @@ export function SavedPanel({ open, onClose, catalogue, onUseMonitor, onOpenSetup
             <ul className="saved-list">
               {models.map((m) => (
                 <li key={m.id}>
+                  <Thumb model={m} size="sm" />
                   <button type="button" className="saved-item" onClick={() => { onUseMonitor(m); onClose(); }}>
                     <strong>{m.brand} {m.model}</strong>
                     <span>{modelMetaText(m)}</span>

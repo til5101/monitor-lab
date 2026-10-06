@@ -144,13 +144,6 @@ export function App() {
               open={state.open === "new"}
               onToggle={() => toggle("new")}
             >
-              <button type="button" className="finder-launch" onClick={() => dispatch({ type: "finder", open: true })}>
-                <span>
-                  <strong>Not sure what to get?</strong>
-                  <small>Find upgrades ranked against your {setupTitle(current)}.</small>
-                </span>
-                <span className="finder-launch-cta">Find one for me →</span>
-              </button>
               <SetupEditor
                 prefix="new"
                 setup={state.next}
@@ -160,6 +153,15 @@ export function App() {
                 dispatch={dispatch}
                 pair={state.pairNew}
                 onPairChange={(value) => dispatch({ type: "pairNew", value })}
+                afterMode={
+                  <button type="button" className="finder-launch" onClick={() => dispatch({ type: "finder", open: true })}>
+                    <span>
+                      <strong>Not sure what to get?</strong>
+                      <small>Find upgrades ranked against your {setupTitle(current)}.</small>
+                    </span>
+                    <span className="finder-launch-cta">Find one for me →</span>
+                  </button>
+                }
               />
               <button type="button" className="primary-button" onClick={() => dispatch({ type: "complete", step: "new" })}>
                 See the difference
