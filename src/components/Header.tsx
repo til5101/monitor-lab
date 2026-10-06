@@ -8,9 +8,10 @@ interface Props {
   canShare: boolean;
   shareUrl: () => string;
   account?: ReactNode;
+  onHelp?: () => void;
 }
 
-export function Header({ progress, canShare, shareUrl, account }: Props) {
+export function Header({ progress, canShare, shareUrl, account, onHelp }: Props) {
   return (
     <header className="topbar">
       <a className="brand" href="/" aria-label="Monitor Lab home">
@@ -30,6 +31,12 @@ export function Header({ progress, canShare, shareUrl, account }: Props) {
         })}
       </ol>
       <div className="topbar-actions">
+        {onHelp && (
+          <button type="button" className="ghost-button help-button" onClick={onHelp} aria-label="How Monitor Lab works">
+            <Icon name="help" />
+            <span>How it works</span>
+          </button>
+        )}
         {canShare && <ShareButton shareUrl={shareUrl} />}
         {account}
       </div>

@@ -6,6 +6,7 @@ const PATHS: Record<string, string> = {
   close: "M6 6l12 12M18 6L6 18",
   heart: "M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z",
   share: "M12 4v11M7.5 8.5 12 4l4.5 4.5M5 14v5h14v-5",
+  help: "M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01",
   expand: "M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5",
 };
 
