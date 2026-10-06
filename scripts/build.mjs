@@ -3,7 +3,10 @@ import * as esbuild from "esbuild";
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const serve = process.argv.includes("--serve");
-const outdir = "dist";
+// --preview=<catalogue.json> builds a self-contained copy with relative paths and a catalogue snapshot.
+const previewArg = process.argv.find((a) => a.startsWith("--preview="));
+const outdir = previewArg ? "dist-preview" : "dist";
+const base = previewArg ? "" : "/";
 
 // Public config. The Supabase publishable key is safe in the browser:
 // row-level security limits it to reading active catalogue rows.
@@ -40,8 +43,8 @@ function writeIndex(metafile) {
   const js = outputs.find((f) => f.endsWith(".js"))?.replace(`${outdir}/`, "");
   const css = outputs.find((f) => f.endsWith(".css"))?.replace(`${outdir}/`, "");
   const html = readFileSync("src/index.html", "utf8")
-    .replace("<!-- CSS -->", css ? `<link rel="stylesheet" href="/${css}">` : "")
-    .replace("<!-- JS -->", `<script type="module" src="/${js}"></script>`);
+    .replace("<!-- CSS -->", css ? `<link rel="stylesheet" href="${base}${css}">` : "")
+    .replace("<!-- JS -->", `${previewArg ? `<script src="catalogue.js"></script>\n    ` : ""}<script type="module" src="${base}${js}"></script>`);
   writeFileSync(`${outdir}/index.html`, html);
 }
 
@@ -56,6 +59,10 @@ if (serve) {
 } else {
   const result = await esbuild.build(options);
   writeIndex(result.metafile);
+  if (previewArg) {
+    const rows = readFileSync(previewArg.split("=")[1], "utf8");
+    writeFileSync(`${outdir}/catalogue.js`, `window.__ML_CATALOGUE__=${rows};`);
+  }
   const size = Object.values(result.metafile.outputs).reduce((t, o) => t + o.bytes, 0);
   console.log(`Built to ${outdir}/ (${Math.round(size / 1024)} KB incl. sourcemaps)`);
 }

@@ -73,6 +73,9 @@ export function mapMonitorRecord(r: Row): MonitorModel {
 
 /** Loads every active monitor, ordered by brand then model. */
 export async function loadCatalogue(signal?: AbortSignal): Promise<MonitorModel[]> {
+  // Offline previews ship a snapshot instead of calling Supabase.
+  const snapshot = (globalThis as { __ML_CATALOGUE__?: Row[] }).__ML_CATALOGUE__;
+  if (Array.isArray(snapshot)) return snapshot.map(mapMonitorRecord);
   const { url, key } = supabaseConfig;
   const endpoint = `${url}/rest/v1/monitor_models?select=${COLUMNS}&active=eq.true&order=brand.asc,model.asc`;
   const response = await fetch(endpoint, { headers: { apikey: key, Accept: "application/json" }, signal });
