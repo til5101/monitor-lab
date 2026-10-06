@@ -83,7 +83,8 @@ function DeskView({ current, next, desk }: { current: Setup; next: Setup; desk: 
             <div className="desk-svg" dangerouslySetInnerHTML={{ __html: deskSceneSvg(setup, `scene-${id}`, `${label} setup`, scene, desk) }} />
             <p className="desk-result">
               <strong>
-                {fit.width.toFixed(1)} cm wide · {fit.height.toFixed(1)} cm tall
+                {setup.monitors.length > 1 ? "Both monitors" : "Monitor size"}: {fit.width.toFixed(1)} cm wide × {fit.height.toFixed(1)} cm tall
+                {setup.monitors.some((m) => m.deskHeightCM > m.bodyHeightCM + 0.05) ? (setup.monitors.length > 1 ? " on their stands" : " on its stand") : ""}
               </strong>
               <span>{fit.parts.join(" · ")}</span>
             </p>
