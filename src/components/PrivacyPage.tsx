@@ -2,8 +2,8 @@ import { Logo } from "./Icon";
 
 // Plain-English privacy notice for monitorlab.co.uk. Keep in step with what the app actually does.
 const UPDATED = "6 October 2026";
-const CONTROLLER = "[OWNER NAME]";
-const CONTACT = "[CONTACT EMAIL]";
+const CONTROLLER = "Monitor Lab";
+const CONTACT = "hello@monitorlab.co.uk";
 
 export function PrivacyPage() {
   return (
