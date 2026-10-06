@@ -1,4 +1,4 @@
-import type { Dispatch } from "react";
+import type { Dispatch, ReactNode } from "react";
 import type { Action } from "../state";
 import type { MonitorModel, Prefix, ScreenInput, SetupInput, Slot } from "../lib/types";
 import { RESOLUTION_OPTIONS, SCALING_OPTIONS, SIZE_OPTIONS, resolutionOptionLabel } from "../lib/setup";
@@ -15,9 +15,11 @@ interface Props {
   /** New setup only: second screen is the same model as the main one. */
   pair?: boolean;
   onPairChange?: (value: boolean) => void;
+  /** Shown between the single/dual choice and the monitor fields. */
+  afterMode?: ReactNode;
 }
 
-export function SetupEditor({ prefix, setup, catalogue, loading, findModel, dispatch, pair = false, onPairChange }: Props) {
+export function SetupEditor({ prefix, setup, catalogue, loading, findModel, dispatch, pair = false, onPairChange, afterMode }: Props) {
   return (
     <div className="editor">
       <Segmented
@@ -26,6 +28,7 @@ export function SetupEditor({ prefix, setup, catalogue, loading, findModel, disp
         options={[{ value: "single", label: "Single monitor" }, { value: "dual", label: "Dual monitor" }]}
         onChange={(mode) => dispatch({ type: "mode", prefix, mode })}
       />
+      {afterMode}
       <ScreenFields
         prefix={prefix}
         slot="primary"

@@ -4,7 +4,7 @@ import type { Desk, Setup } from "../lib/types";
 import { buildInsights, type Insight } from "../lib/insights";
 import { deskFit } from "../lib/setup";
 import { deskSceneSvg, sharedScene } from "../lib/deskScene";
-import { featureBadges, featureLosses } from "../lib/features";
+import { PortsView } from "./PortsView";
 import { setupTitle } from "../lib/setup";
 import { Segmented } from "./Segmented";
 import { Icon } from "./Icon";
@@ -42,10 +42,6 @@ export function Comparison({ current, next, desk, tab, layout, nextIsExample, sh
       <div className="stage-bar">
         <Segmented dark label="Comparison view" value={activeTab} options={tabs} onChange={(t) => dispatch({ type: "tab", tab: t })} />
         {!nextIsExample && <SaveSetupButton defaultName={`${setupTitle(current)} → ${setupTitle(next)}`.slice(0, 80)} params={saveParams} />}
-        <button type="button" className="stage-button" onClick={() => setActualOpen(true)}>
-          <Icon name="expand" />
-          <span>Actual size</span>
-        </button>
         {shortlist ? (
           <div className="shortlist-nav" aria-label="Finder results">
             <button type="button" className="round-button" aria-label="Previous recommendation" disabled={shortlist.index <= 0} onClick={() => shortlist.go(shortlist.index - 1)}>
@@ -59,6 +55,13 @@ export function Comparison({ current, next, desk, tab, layout, nextIsExample, sh
         ) : (
           <span className="stage-note">Same physical scale · updates as you change anything</span>
         )}
+        <button type="button" className="actual-cta" onClick={() => setActualOpen(true)} aria-label="See the new monitor at actual size on your screen">
+          <span className="actual-cta-icon"><Icon name="expand" /></span>
+          <span className="actual-cta-copy">
+            <strong>See it at actual size</strong>
+            <small>Life-size on your screen</small>
+          </span>
+        </button>
       </div>
       <div className="stage-body" key={activeTab}>
         {activeTab === "workspace" && <ScreensView current={current} next={next} nextIsExample={nextIsExample} />}
@@ -83,44 +86,12 @@ function DeskView({ current, next, desk }: { current: Setup; next: Setup; desk: 
             <div className="desk-svg" dangerouslySetInnerHTML={{ __html: deskSceneSvg(setup, `scene-${id}`, `${label} setup`, scene, desk) }} />
             <p className="desk-result">
               <strong>
-                {fit.width.toFixed(1)} cm wide · {fit.height.toFixed(1)} cm tall
+                {setup.monitors.length > 1 ? "Both monitors" : "Monitor size"}: {fit.width.toFixed(1)} cm wide × {fit.height.toFixed(1)} cm tall
+                {setup.monitors.some((m) => m.deskHeightCM > m.bodyHeightCM + 0.05) ? (setup.monitors.length > 1 ? " on their stands" : " on its stand") : ""}
               </strong>
               <span>{fit.parts.join(" · ")}</span>
             </p>
           </article>
-        );
-      })}
-    </div>
-  );
-}
-
-export function PortsView({ current, next, dark }: { current: Setup; next: Setup; dark?: boolean }) {
-  const losses = featureLosses(current.primary.model, next.primary.model);
-  return (
-    <div className={`ports-view${dark ? " is-dark" : ""}`}>
-      {([[current, "Current"], [next, "New"]] as const).map(([setup, label]) => {
-        const models = setup.monitors.map((m) => m.model).filter((m, i, all) => m && all.indexOf(m) === i);
-        return (
-          <div key={label} className="ports-col">
-            <span className={`kicker${label === "New" ? " is-accent" : ""}`}>{label} · {setupTitle(setup)}</span>
-            {models.length === 0 && <p className="muted">Pick a model from the catalogue to see its ports and extras.</p>}
-            {models.map((m) => {
-              const badges = featureBadges(m);
-              return (
-                <div key={m!.id} className="chips">
-                  {models.length > 1 && <span className="chips-title">{m!.model}</span>}
-                  {badges.length === 0 ? <span className="muted">Ports not verified yet.</span> : badges.map((b) => <span key={b.text} className={`chip${b.kind === "warning" ? " is-warning" : ""}`}>{b.text}</span>)}
-                </div>
-              );
-            })}
-            {label === "New" && losses.length > 0 && (
-              <div className="chips">
-                {losses.map((l) => (
-                  <span key={l} className="chip is-loss">No {l}</span>
-                ))}
-              </div>
-            )}
-          </div>
         );
       })}
     </div>

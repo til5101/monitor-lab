@@ -91,9 +91,9 @@ function Calibrate({ initial, onSave, onCancel }: { initial: number; onSave: (px
       <button type="button" className="icon-button overlay-close" aria-label="Close" onClick={onCancel}>
         <Icon name="close" />
       </button>
-      <span className="kicker">One-time setup</span>
+      <span className="kicker">Actual size · one-time setup</span>
       <h2>Hold a bank card against your screen</h2>
-      <p>Drag the slider until the outline is exactly as wide as the card. Any standard bank, debit or loyalty card works.</p>
+      <p>To draw a monitor at its real size, we need to know how big things look on your display. Drag the slider until the outline is exactly as wide as the card. Any standard bank, debit or loyalty card works.</p>
       <div className="card-stage">
         <div className="bank-card" style={{ width }} aria-hidden="true">
           <span className="chip-shape" />

@@ -10,7 +10,8 @@ import { Header } from "./components/Header";
 import { StepCard } from "./components/StepCard";
 import { SetupEditor } from "./components/SetupEditor";
 import { DeskEditor } from "./components/DeskEditor";
-import { Comparison, InsightsView, PortsView } from "./components/Comparison";
+import { Comparison, InsightsView } from "./components/Comparison";
+import { PortsView } from "./components/PortsView";
 import { Stats } from "./components/Stats";
 import { Finder } from "./components/Finder";
 import { Icon } from "./components/Icon";
@@ -144,13 +145,6 @@ export function App() {
               open={state.open === "new"}
               onToggle={() => toggle("new")}
             >
-              <button type="button" className="finder-launch" onClick={() => dispatch({ type: "finder", open: true })}>
-                <span>
-                  <strong>Not sure what to get?</strong>
-                  <small>Find upgrades ranked against your {setupTitle(current)}.</small>
-                </span>
-                <span className="finder-launch-cta">Find one for me →</span>
-              </button>
               <SetupEditor
                 prefix="new"
                 setup={state.next}
@@ -160,6 +154,15 @@ export function App() {
                 dispatch={dispatch}
                 pair={state.pairNew}
                 onPairChange={(value) => dispatch({ type: "pairNew", value })}
+                afterMode={
+                  <button type="button" className="finder-launch" onClick={() => dispatch({ type: "finder", open: true })}>
+                    <span>
+                      <strong>Not sure what to get?</strong>
+                      <small>Find upgrades ranked against your {setupTitle(current)}.</small>
+                    </span>
+                    <span className="finder-launch-cta">Find one for me →</span>
+                  </button>
+                }
               />
               <button type="button" className="primary-button" onClick={() => dispatch({ type: "complete", step: "new" })}>
                 See the difference
