@@ -42,10 +42,6 @@ export function Comparison({ current, next, desk, tab, layout, nextIsExample, sh
       <div className="stage-bar">
         <Segmented dark label="Comparison view" value={activeTab} options={tabs} onChange={(t) => dispatch({ type: "tab", tab: t })} />
         {!nextIsExample && <SaveSetupButton defaultName={`${setupTitle(current)} → ${setupTitle(next)}`.slice(0, 80)} params={saveParams} />}
-        <button type="button" className="stage-button" onClick={() => setActualOpen(true)}>
-          <Icon name="expand" />
-          <span>Actual size</span>
-        </button>
         {shortlist ? (
           <div className="shortlist-nav" aria-label="Finder results">
             <button type="button" className="round-button" aria-label="Previous recommendation" disabled={shortlist.index <= 0} onClick={() => shortlist.go(shortlist.index - 1)}>
@@ -59,6 +55,13 @@ export function Comparison({ current, next, desk, tab, layout, nextIsExample, sh
         ) : (
           <span className="stage-note">Same physical scale · updates as you change anything</span>
         )}
+        <button type="button" className="actual-cta" onClick={() => setActualOpen(true)} aria-label="See the new monitor at actual size on your screen">
+          <span className="actual-cta-icon"><Icon name="expand" /></span>
+          <span className="actual-cta-copy">
+            <strong>See it at actual size</strong>
+            <small>Life-size on your screen</small>
+          </span>
+        </button>
       </div>
       <div className="stage-body" key={activeTab}>
         {activeTab === "workspace" && <ScreensView current={current} next={next} nextIsExample={nextIsExample} />}
