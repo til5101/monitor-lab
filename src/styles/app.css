@@ -231,17 +231,66 @@ button { cursor: pointer; }
 .desk-result strong { display: block; color: var(--stage-text); font-size: 13.5px; }
 .desk-card.is-over .desk-result strong { color: #f2b9a6; }
 
-.ports-view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; padding: 6px 20px 20px; align-content: start; }
+.ports-view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 6px 20px 20px; align-content: start; overflow: auto; min-height: 0; }
 .ports-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chips-title { width: 100%; font-size: 12px; font-weight: 600; }
 .chip { padding: 5px 9px; border-radius: 8px; background: #eff0f4; font-size: 12px; }
 .chip.is-warning { background: var(--amber-soft); color: #7a4c0c; }
-.chip.is-loss { background: #fbe8e1; color: #9a3a17; }
-.ports-view.is-dark .chip { background: var(--stage-3); color: var(--stage-text); }
-.ports-view.is-dark .chip.is-loss { background: #3a2a2a; color: #f2b9a6; }
-.ports-view.is-dark .chip.is-warning { background: #3a3122; color: #f2d29b; }
-.ports-view.is-dark .muted { color: var(--stage-muted); }
+
+/* Ports: light by default (wide-screen side panel), dark on the stage */
+.ports-view {
+  --pc-bg: var(--surface-2); --pc-line: var(--line); --pc-text: var(--text); --pc-muted: var(--text-3);
+  --panel-bg: linear-gradient(180deg, #2a2f3b, #1d212b); --panel-edge: #3a4050; --port: #0c0f15; --port-edge: #8e97ab; --port-video: #a9aaff;
+  --tile-off: transparent; --tile-on: var(--surface); --gain-bg: var(--green-soft); --gain: var(--green); --loss-bg: #fbe8e1; --loss: #9a3a17;
+}
+.ports-view.is-dark {
+  --pc-bg: var(--stage-2); --pc-line: transparent; --pc-text: var(--stage-text); --pc-muted: var(--stage-muted);
+  --panel-bg: linear-gradient(180deg, #0f1218, #0a0c11); --panel-edge: #2e3442;
+  --tile-on: var(--stage-3); --gain-bg: #1d3a2e; --gain: #7fd6ac; --loss-bg: #3a2a2a; --loss: #f2b9a6;
+}
+.ports-view .muted { color: var(--pc-muted); margin: 0; font-size: 12.5px; }
+.port-changes { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+.port-changes-title { margin-right: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--pc-muted); }
+.port-change { padding: 3px 8px; border-radius: 999px; font-size: 11.5px; font-weight: 600; background: var(--pc-bg); color: var(--pc-muted); }
+.port-change.is-gain { background: var(--gain-bg); color: var(--gain); }
+.port-change.is-loss { background: var(--loss-bg); color: var(--loss); }
+
+.port-card { display: flex; flex-direction: column; gap: 12px; padding: 14px; border-radius: 14px; background: var(--pc-bg); border: 1px solid var(--pc-line); color: var(--pc-text); animation: fade-up 0.3s var(--ease) both; }
+.port-card-head { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.port-card-head > div { min-width: 0; }
+.port-card-head strong { display: block; font-size: 13.5px; }
+.port-card-head span { display: block; font-size: 11.5px; color: var(--pc-muted); }
+
+.rear-panel { position: relative; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px 16px; padding: 14px 14px 12px; border-radius: 10px; background: var(--panel-bg); border: 1px solid var(--panel-edge); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -8px 16px rgba(0, 0, 0, 0.25); min-height: 74px; }
+.rear-panel::before { content: ""; position: absolute; left: 10px; right: 10px; top: 5px; height: 2px; border-radius: 2px; background: repeating-linear-gradient(90deg, #ffffff12 0 6px, transparent 6px 10px); }
+.rear-panel.is-blank { justify-content: center; align-items: center; }
+.rear-blank { font-size: 22px; font-weight: 700; color: #ffffff30; }
+.port-group { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.port-glyphs { display: flex; gap: 3px; }
+.port-glyph { width: 30px; height: 19px; fill: var(--port); stroke: var(--port-edge); stroke-width: 1.4; stroke-linejoin: round; }
+.port-glyph .glyph-fill { fill: var(--port-edge); stroke: none; opacity: 0.55; }
+.port-glyph .glyph-mark { fill: none; stroke: #f2d29b; stroke-width: 1.6; stroke-linecap: round; }
+.port-group.is-video .port-glyph { stroke: var(--port-video); }
+.port-label { font-size: 11px; font-weight: 600; color: #e7e9f0; white-space: nowrap; }
+.port-detail { margin-top: -3px; font-size: 10.5px; color: #9aa1b2; white-space: nowrap; }
+.port-group.is-video .port-label { color: #c9caff; }
+.ports-view.is-dark .port-glyph { width: 36px; height: 23px; }
+.ports-view.is-dark .rear-panel { gap: 14px 20px; padding: 16px 16px 14px; }
+
+.laptop-link { display: flex; align-items: flex-start; gap: 8px; margin: 0; font-size: 12.5px; color: var(--pc-muted); }
+.laptop-link.is-yes { color: var(--pc-text); }
+.laptop-icon { flex-shrink: 0; width: 18px; height: 18px; margin-top: -1px; }
+.laptop-link.is-yes .laptop-icon { color: var(--gain); }
+
+.extras { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.extra { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 7px; align-items: center; padding: 7px 8px; border-radius: 9px; border: 1px dashed var(--pc-line); opacity: 0.45; }
+.ports-view.is-dark .extra { border-color: var(--stage-3); }
+.extra.is-on { opacity: 1; background: var(--tile-on); border-style: solid; border-color: transparent; }
+.extra-icon { grid-row: span 2; width: 18px; height: 18px; color: var(--pc-muted); }
+.extra.is-on .extra-icon { color: var(--accent); }
+.ports-view.is-dark .extra.is-on .extra-icon { color: #a9aaff; }
+.extra-label { font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.extra-detail { font-size: 10.5px; color: var(--pc-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .insights { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 6px 20px 20px; align-content: start; overflow: auto; }
 .insight { padding: 14px 16px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); }
@@ -273,7 +322,8 @@ button { cursor: pointer; }
 .panel { padding: 18px 0 4px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); }
 .panel-title { margin: 0 20px 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-ink); }
 .side .insights { grid-template-columns: 1fr; overflow: visible; }
-.side .ports-view { grid-template-columns: 1fr; }
+.side .ports-view { grid-template-columns: 1fr; overflow: visible; }
+.side .extras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 /* ---------- Laptop and up: everything on one screen ---------- */
 
@@ -553,4 +603,7 @@ button { cursor: pointer; }
 .saved-list li > .thumb { margin-left: 2px; }
 @media (max-width: 480px) {
   .thumb.is-lg { width: 56px; height: 46px; }
+}
+@media (max-width: 600px) {
+  .extras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

@@ -4,7 +4,7 @@ import type { Desk, Setup } from "../lib/types";
 import { buildInsights, type Insight } from "../lib/insights";
 import { deskFit } from "../lib/setup";
 import { deskSceneSvg, sharedScene } from "../lib/deskScene";
-import { featureBadges, featureLosses } from "../lib/features";
+import { PortsView } from "./PortsView";
 import { setupTitle } from "../lib/setup";
 import { Segmented } from "./Segmented";
 import { Icon } from "./Icon";
@@ -89,39 +89,6 @@ function DeskView({ current, next, desk }: { current: Setup; next: Setup; desk: 
               <span>{fit.parts.join(" · ")}</span>
             </p>
           </article>
-        );
-      })}
-    </div>
-  );
-}
-
-export function PortsView({ current, next, dark }: { current: Setup; next: Setup; dark?: boolean }) {
-  const losses = featureLosses(current.primary.model, next.primary.model);
-  return (
-    <div className={`ports-view${dark ? " is-dark" : ""}`}>
-      {([[current, "Current"], [next, "New"]] as const).map(([setup, label]) => {
-        const models = setup.monitors.map((m) => m.model).filter((m, i, all) => m && all.indexOf(m) === i);
-        return (
-          <div key={label} className="ports-col">
-            <span className={`kicker${label === "New" ? " is-accent" : ""}`}>{label} · {setupTitle(setup)}</span>
-            {models.length === 0 && <p className="muted">Pick a model from the catalogue to see its ports and extras.</p>}
-            {models.map((m) => {
-              const badges = featureBadges(m);
-              return (
-                <div key={m!.id} className="chips">
-                  {models.length > 1 && <span className="chips-title">{m!.model}</span>}
-                  {badges.length === 0 ? <span className="muted">Ports not verified yet.</span> : badges.map((b) => <span key={b.text} className={`chip${b.kind === "warning" ? " is-warning" : ""}`}>{b.text}</span>)}
-                </div>
-              );
-            })}
-            {label === "New" && losses.length > 0 && (
-              <div className="chips">
-                {losses.map((l) => (
-                  <span key={l} className="chip is-loss">No {l}</span>
-                ))}
-              </div>
-            )}
-          </div>
         );
       })}
     </div>
