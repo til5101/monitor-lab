@@ -16,6 +16,7 @@ import { Stats } from "./components/Stats";
 import { Finder } from "./components/Finder";
 import { Icon } from "./components/Icon";
 import { AccountButton, Notice, SavedPanel, SignInDialog } from "./components/AccountUI";
+import { Welcome, shouldShowWelcome } from "./components/Welcome";
 
 /** With a matching pair, the second screen mirrors the main one (keeping its own orientation). */
 function effectiveNext(state: AppState): SetupInput {
@@ -89,6 +90,7 @@ export function App() {
   };
 
   const [savedOpen, setSavedOpen] = useState(false);
+  const [welcomeOpen, setWelcomeOpen] = useState(shouldShowWelcome);
   const shareQuery = () => new URL(buildShareUrl(state, window.location.origin)).search.replace(/^\?/, "");
   const openSavedSetup = (params: string) => {
     const restored = readShareParams(`?${params}`, initialState);
@@ -110,6 +112,7 @@ export function App() {
         shareUrl={() => buildShareUrl(state, window.location.origin)}
         canShare={state.doneCurrent}
         account={<AccountButton onOpenSaved={() => setSavedOpen(true)} />}
+        onHelp={() => setWelcomeOpen(true)}
       />
       {catalogueError && (
         <div className="banner" role="status">
@@ -238,6 +241,22 @@ export function App() {
         )}
       </main>
       <SavedPanel open={savedOpen} onClose={() => setSavedOpen(false)} catalogue={catalogue} onUseMonitor={useSavedMonitor} onOpenSetup={openSavedSetup} />
+      {welcomeOpen && (
+        <Welcome
+          catalogue={catalogue}
+          loading={loading}
+          onClose={() => setWelcomeOpen(false)}
+          onManual={() => {
+            setWelcomeOpen(false);
+            dispatch({ type: "open", step: "current" });
+          }}
+          onPickCurrent={(m) => {
+            setWelcomeOpen(false);
+            dispatch({ type: "screen", prefix: "current", slot: "primary", patch: { modelId: m.id, size: m.size, resolution: m.resolution } });
+            dispatch({ type: "complete", step: "current" });
+          }}
+        />
+      )}
       <SignInDialog />
       <Notice />
     </div>
